@@ -9,7 +9,9 @@ export default function RegiserPage() {
     const [password, setPassword] = useState('');
     function registetUser(ev){
         ev.preventDefault();
-        axios.get('/test')
+        axios.post('/register', {
+            name, email, password
+        });
     }
 
     return (
