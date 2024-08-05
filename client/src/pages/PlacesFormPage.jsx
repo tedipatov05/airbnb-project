@@ -30,7 +30,7 @@ export default function PlacesFormPage() {
             const { data } = response;
             setTitle(data.title);
             setAddress(data.address);
-            setAddedPhotos(data.addedPhotos);
+            setAddedPhotos(data.photos);
             setDescription(data.description);
             setPerks(data.perks);
             setExtraInfo(data.extraInfo);
@@ -70,7 +70,7 @@ export default function PlacesFormPage() {
 
         if (id) {
             //update 
-            await axios.put('/places', {
+            await axios.put('/places/' + id, {
                 id, ...placeData
             });
 

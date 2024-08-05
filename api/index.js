@@ -151,6 +151,8 @@ app.put('/places/:id', async (req, res) => {
             await placeDoc.save();
             res.json('ok');
         }
+
+        res.json('some error occured' + err.statusCode)
     });
 
 });
