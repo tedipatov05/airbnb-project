@@ -3,6 +3,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const User = require('./models/User.js')
 const Place = require('./models/Place.js')
+const Booking = require('./models/Booking.js')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -175,6 +176,16 @@ app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
 
     }
     res.json(uploadedFiles);
+});
+
+app.post('/bookings', (req, res) => {
+    const {place, checkIn, checkOut, numberOfGuests, name, phone} = req.body;
+    Booking.create({
+        place, checkIn, checkOut, numberOfGuests, name, phone
+    }).then((err, doc) => {
+        if(err) throw err;
+        res.json(doc);
+    });
 });
 
 
