@@ -30,6 +30,19 @@ console.log(process.env.MONGO_URL)
 
 mongoose.connect(process.env.MONGO_URL);
 
+function getUserDataFromRequest(req) {
+
+    return new Promise((resolve, reject) => {
+        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+
+            resolve(userData);
+        });
+
+    });
+
+}
+
 app.get('/test', (req, res) => {
     res.json('test ok');
 });
@@ -178,15 +191,25 @@ app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
     res.json(uploadedFiles);
 });
 
-app.post('/bookings', (req, res) => {
-    const {place, checkIn, checkOut, numberOfGuests, name, phone} = req.body;
+app.post('/bookings', async (req, res) => {
+    const userData  = await getUserDataFromRequest(req);
+    const { place, checkIn, checkOut, numberOfGuests, name, phone, price } = req.body;
     Booking.create({
-        place, checkIn, checkOut, numberOfGuests, name, phone
-    }).then((err, doc) => {
-        if(err) throw err;
+        place, checkIn, checkOut, numberOfGuests, name, phone, user: userData.id, price
+    }).then((doc) => {
         res.json(doc);
+    }).catch((err) => {
+        throw err;
     });
 });
+
+
+
+app.get('/bookings', async (req, res) => {
+    const userData = await getUserDataFromRequest(req);
+    res.json(await Booking.find({user: userData.id}))
+
+})
 
 
 
