@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import BookingWidget from "../BookingWidget";
 import PlaceGallery from "../PlaceGallery";
 import AddressLink from "../AddressLink";
+import '../styles/placeStyle.css';
 
 export default function PlacePage() {
 
@@ -26,7 +27,7 @@ export default function PlacePage() {
     
 
     return (
-        <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
+        <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8 rounded-2xl">
             <h1 className="text-3xl">{place.title}</h1>
             <AddressLink>{place.address}</AddressLink>
             <PlaceGallery place={place} />
