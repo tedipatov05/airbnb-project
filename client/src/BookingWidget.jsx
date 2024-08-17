@@ -3,6 +3,8 @@ import { differenceInCalendarDays } from 'date-fns'
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function BookingWidget({ place }) {
 
@@ -31,6 +33,17 @@ export default function BookingWidget({ place }) {
         const price = numberOfNights * place.price;
         const {data} = await axios.post('/bookings', { place: place._id, checkIn, checkOut, name, phone, price, numberOfGuests});
         const bookingId = data._id;
+        toast.success(`Successfully booked place: ${place.title}`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+
+        });
 
         setRedirect(`/account/bookings/${bookingId}`);
 

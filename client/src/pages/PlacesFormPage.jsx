@@ -5,6 +5,8 @@ import axios from "axios";
 import PhotosUploader from "../PhotosUploader";
 import AccountNav from "../AccountNav";
 import { useParams, Navigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function PlacesFormPage() {
 
@@ -75,12 +77,34 @@ export default function PlacesFormPage() {
             await axios.put('/places/' + id, {
                 id, ...placeData
             });
+            toast.success('Successfully edited place', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
 
             setRedirect(true);
 
         } else {
             // new place 
             await axios.post('/places', placeData);
+            toast.success('Successfully added place', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
 
             setRedirect(true);
         }

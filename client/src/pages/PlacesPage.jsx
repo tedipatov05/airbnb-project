@@ -31,17 +31,31 @@ export default function PlacesPage() {
 
                 <div className="mt-4">
                     {places.length > 0 && places.map(place => (
-                        
-                        <Link to={'/account/places/' + place._id} className="flex cursor-pointer gap-4 bg-gray-200 p-4 rounded-2xl" key={place.title}>
-                            <div className=" flex w-32 h-32 bg-gray-300 grow shrink-0">
-                                <PlaceImg place={place} />
-                            </div>
-                            <div className="grow-0 shrink">
-                                <h2 className="text-xl">{place.title}</h2>
-                                <p className="text-sm mt-2">{place.description}</p>
-                            </div>
 
+                        <Link to={'/account/places/' + place._id} class="bg-white border rounded-xl shadow-sm mt-2 sm:flex" key={place.title}>
+                            <div className="shrink-0 relative w-full rounded-t-xl overflow-hidden sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
+                                <PlaceImg place={place} className={"absolute top-0 start-0 object-cover"}/>
+                            </div>
+                            <div className="flex flex-wrap">
+                                <div className="p-4 flex flex-col h-full sm:p-7">
+                                    <h3 className="text-lg font-bold text-gray-800">
+                                        {place.title}
+                                    </h3>
+                                    <p className="mt-1 text-gray-500">
+                                        {place.description}
+                                    </p>
+                                    {/* <div class="mt-5 sm:mt-auto">
+                                        <p class="text-xs text-gray-500">
+                                            Last updated 5 mins ago
+                                        </p>
+                                    </div> */}
+                                </div>
+                            </div>
                         </Link>
+
+
+
+
                     ))}
                 </div>
 
@@ -49,5 +63,7 @@ export default function PlacesPage() {
 
 
         </div>
+
+
     )
 }

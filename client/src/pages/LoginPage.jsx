@@ -2,29 +2,54 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
-    const {setUser} = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
 
-    async function handleLoginSubmit(ev){
+    async function handleLoginSubmit(ev) {
         ev.preventDefault();
-        try{
-            
-            const {data} = await axios.post('/login', {email, password}, {withCredentials: true})
+        try {
+
+            const { data } = await axios.post('/login', { email, password }, { withCredentials: true })
             setUser(data);
-            alert('Login successful');
+            toast.success('Login successfull!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
             setRedirect(true);
 
-        } catch(e){
-            alert('Login failed')
+        } catch (e) {
+
+
+            toast.error('Login failed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
         }
     }
 
-    if(redirect){
+    if (redirect) {
         return <Navigate to={'/'} />
     }
 
