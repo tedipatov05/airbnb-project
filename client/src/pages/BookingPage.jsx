@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import AddressLink from "../AddressLink";
-import PlaceGallery from "../PlaceGallery";
-import BookingDates from "../BookingDates";
+import AddressLink from "../components/AddressLink";
+import PlaceGallery from "../components/PlaceGallery";
+import BookingDates from "../components/BookingDates";
 import axios from "axios";
 
 

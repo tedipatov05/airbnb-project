@@ -2,7 +2,7 @@ import { useState,  useContext, useEffect} from "react";
 import { differenceInCalendarDays } from 'date-fns'
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import { UserContext } from "./UserContext";
+import { UserContext } from "../UserContext";
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Perks from "../Perks";
+import Perks from "../components/Perks";
 import axios from "axios";
 
-import PhotosUploader from "../PhotosUploader";
-import AccountNav from "../AccountNav";
+import PhotosUploader from "../components/PhotosUploader";
+import AccountNav from "../components/AccountNav";
 import { useParams, Navigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
