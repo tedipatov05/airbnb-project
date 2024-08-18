@@ -5,7 +5,7 @@ import PlaceImg from "../components/PlaceImg";
 import { differenceInCalendarDays, format } from "date-fns";
 import { Link } from "react-router-dom";
 import BookingDates from "../components/BookingDates";
-import ReactPaginate from "react-paginate";
+import Pagination from "../components/Pagination";
 
 export default function BookingsPage() {
 
@@ -19,7 +19,7 @@ export default function BookingsPage() {
 
 
     return (
-        <div>
+        <div >
             <AccountNav />
             <div className="grid grid-rows-2" style={{ 'gridTemplateColumns': "repeat(4, minmax(0, 0.25fr))" }}>
                 {/* maps all bookings */}
@@ -55,15 +55,12 @@ export default function BookingsPage() {
                     </div>
                 ))}
 
-                <ReactPaginate
-                    breakLabel="..."
-                    nextLabel="next >"
-                    onPageChange={() => {}}
-                    pageRangeDisplayed={5}
-                    pageCount={3}
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                />
+
+
+
+            </div>
+            <div className="flex justify-center">
+                <Pagination />
 
             </div>
         </div>
