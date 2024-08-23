@@ -16,7 +16,7 @@ export default function BookingsPage() {
     useEffect(() => {
         axios.get('/bookings').then(response => {
 
-            setBookings([...response.data]);
+            setBookings([...response.data  ]);
         })
     }, []);
 
@@ -24,16 +24,16 @@ export default function BookingsPage() {
     const firstPlaceIndex = lastPlaceIndex - placesPerPage;
     const currentBookings = bookings.slice(firstPlaceIndex, lastPlaceIndex);
 
+    const rows = currentBookings > 4 ? 2 : 1;
     
 
     return (
         <div >
             <AccountNav />
-            <div className="grid grid-rows-2" style={{ 'gridTemplateColumns': "repeat(4, minmax(0, 0.25fr))" }}>
+            <div className={"grid grid-rows-" + rows} style={{ 'gridTemplateColumns': "repeat(4, minmax(0, 0.25fr))" }}>
                 <Bookings bookings={currentBookings} />
-
             </div>
-            <div className="pagination">
+            <div className="pagination flex justify-center">
                 <Pagination totalPlaces={bookings.length} placesPerPage={placesPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage} />
             </div>
         </div>
