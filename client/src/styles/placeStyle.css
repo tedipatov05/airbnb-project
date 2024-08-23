@@ -1,7 +1,8 @@
 @media (min-width: 1444px) {
-    #main{
+    #main, #gallery{
         padding-left: 18rem;
         padding-right: 16rem;
     }
+
 
 }

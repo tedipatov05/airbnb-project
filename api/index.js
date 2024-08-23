@@ -146,7 +146,7 @@ app.get('/user-places', (req, res) => {
 
 app.get('/places/:id', async (req, res) => {
     const { id } = req.params;
-    res.json(await Place.findById(id));
+    res.json(await Place.findById(id).populate('owner'));
 });
 
 app.put('/places/:id', async (req, res) => {
