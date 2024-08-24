@@ -5,11 +5,13 @@ import BookingWidget from "../components/BookingWidget";
 import PlaceGallery from "../components/PlaceGallery";
 import AddressLink from "../components/AddressLink";
 import '../styles/placeStyle.css';
+import Review from "../components/Review";
 
 export default function PlacePage() {
 
     const { id } = useParams();
     const [place, setPlace] = useState(null);
+    const [extraInfo, setExtraInfo] = useState([]);
 
     useEffect(() => {
         if (!id) {
@@ -18,6 +20,7 @@ export default function PlacePage() {
 
         axios.get(`/places/${id}`).then(response => {
             setPlace(response.data);
+            setExtraInfo(response.data.extraInfo.split('*'))
         });
 
     }, [id]);
@@ -35,10 +38,10 @@ export default function PlacePage() {
             <div className="mt-8 mb-8 gap-8 grid grid-cols-1 md:grid-cols-[2fr_1fr]">
                 <div>
                     <div className="flex gap-2">
-                        <img className="h-10 w-10 rounded-full" src='http://localhost:4000/uploads/blank-profile-picture.png' alt="" />
+                        <img className="h-12 w-12 rounded-full" src='http://localhost:4000/uploads/blank-profile-picture.png' alt="" />
                         <div className="ml-3 overflow-hidden">
-                            <p className="text-sm font-medium text-slate-900">Hosted bg {place.owner.name}</p>
-                            <p className="text-sm text-slate-500 truncate">{place.owner.email}</p>
+                            <p className="text-md font-medium text-slate-900">Hosted by {place.owner.name}</p>
+                            <p className="text-md text-slate-500 truncate">{place.owner.email}</p>
                         </div>
 
                     </div>
@@ -46,9 +49,13 @@ export default function PlacePage() {
                         <h2 className="font-semibold text-2xl">Description</h2>
                         {place.description}
                     </div>
-                    Check-in: {place.checkIn}<br />
-                    Check-out: {place.checkOut} <br />
-                    Max number of guests: {place.maxGuests}
+                    <div>
+                        <h2 className="text-xl font-bold mb-2">Things to know</h2>
+                        Check-in: {place.checkIn}<br />
+                        Check-out: {place.checkOut} <br />
+                        Max number of guests: {place.maxGuests}
+
+                    </div>
 
                 </div>
                 <div>
@@ -60,11 +67,17 @@ export default function PlacePage() {
                 <div >
                     <h2 className="font-semibold text-2xl">Extra Info</h2>
                 </div>
-                <div className="mb-4 mt-1 text-sm text-gray-700 leading-5">
-                    {place.extraInfo}
+                <div className="mb-4 mt-1 text-md text-black leading-5">
+                    {extraInfo.length > 0 && extraInfo.map((info, index) => (
+                        <>
+                            <span key={index}>{index > 0 ? '*' + info : info}</span>
+                            <br />
+                        </>
+                    ))}
                 </div>
             </div>
 
+            <Review />
 
         </div>
     )
