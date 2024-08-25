@@ -4,6 +4,7 @@ import AddressLink from "../components/AddressLink";
 import PlaceGallery from "../components/PlaceGallery";
 import BookingDates from "../components/BookingDates";
 import axios from "axios";
+import Review from "../components/Review";
 
 
 export default function BookingPlace() {
@@ -53,6 +54,8 @@ export default function BookingPlace() {
 
 
             </div>
+
+            <Review />
         </div>
     )
 }
