@@ -211,6 +211,10 @@ app.get('/bookings', async (req, res) => {
 
 })
 
+app.post('/reviews', async (req, res) => {
+    const userData  = await getUserDataFromRequest(req);
+})
+
 
 
 app.listen(4000);

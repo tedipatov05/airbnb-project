@@ -5,7 +5,7 @@ import BookingWidget from "../components/BookingWidget";
 import PlaceGallery from "../components/PlaceGallery";
 import AddressLink from "../components/AddressLink";
 import '../styles/placeStyle.css';
-import Review from "../components/Review";
+import ReviewSection from "../components/ReviewSection";
 
 export default function PlacePage() {
 
@@ -77,7 +77,7 @@ export default function PlacePage() {
                 </div>
             </div>
 
-            <Review />
+            <ReviewSection />
 
         </div>
     )

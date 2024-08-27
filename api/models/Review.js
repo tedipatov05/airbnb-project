@@ -7,7 +7,7 @@ const reviewSchema = new Schema({
     place: { type: mongoose.Schema.Types.ObjectId, ref: 'Place' },
     content: { type: String, required: true },
     createdOn: { type: Date, required: true }, 
-    starts: {type: Number, required: true}
+    stars: {type: Number, required: true}
 })
 
 const ReviewModel = mongoose.model('Review', reviewSchema);
