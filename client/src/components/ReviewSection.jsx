@@ -1,9 +1,10 @@
 import { useState } from "react";
 import ReviewStats from "./ReviewStats";
 import Stars from "./Stars";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import { useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 export default function ReviewSection() {
 
@@ -18,8 +19,34 @@ export default function ReviewSection() {
     }
 
 
-    function handleReviewSubmit(ev){
+    async function handleReviewSubmit(ev){
         ev.preventDefault();
+        try{
+            await axios.post('/reviews', {placeId: id, stars, content})
+            toast.success('Successfully added review', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+        }catch(e){
+            toast.error('Unexpected error occured', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+        }
 
     }
 

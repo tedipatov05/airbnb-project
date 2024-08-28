@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const User = require('./models/User.js')
 const Place = require('./models/Place.js')
 const Booking = require('./models/Booking.js')
+const Review = require('./models/Review.js')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -192,7 +193,7 @@ app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
 });
 
 app.post('/bookings', async (req, res) => {
-    const userData  = await getUserDataFromRequest(req);
+    const userData = await getUserDataFromRequest(req);
     const { place, checkIn, checkOut, numberOfGuests, name, phone, price } = req.body;
     Booking.create({
         place, checkIn, checkOut, numberOfGuests, name, phone, user: userData.id, price
@@ -207,12 +208,20 @@ app.post('/bookings', async (req, res) => {
 
 app.get('/bookings', async (req, res) => {
     const userData = await getUserDataFromRequest(req);
-    res.json(await Booking.find({user: userData.id}).populate('place'))
+    res.json(await Booking.find({ user: userData.id }).populate('place'))
 
 })
 
 app.post('/reviews', async (req, res) => {
-    const userData  = await getUserDataFromRequest(req);
+    const userData = await getUserDataFromRequest(req);
+    const { placeId, stars, content } = req.body;
+    Review.create({
+        content, createdOn: Date.now(), stars, owner: userData.id, placeId
+    }).then((doc) => {
+        res.json(doc);
+    }).catch((err) => {
+        throw err;
+    });
 })
 
 
