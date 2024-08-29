@@ -216,12 +216,20 @@ app.post('/reviews', async (req, res) => {
     const userData = await getUserDataFromRequest(req);
     const { placeId, stars, content } = req.body;
     Review.create({
-        content, createdOn: Date.now(), stars, owner: userData.id, placeId
+        content, createdOn: Date.now(), stars, owner: userData.id, place: placeId
     }).then((doc) => {
         res.json(doc);
     }).catch((err) => {
         throw err;
     });
+})
+app.get('/reviews/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const reviewDoc = await Review.find({ place: id }).populate('owner');
+
+    res.json(reviewDoc);
+
 })
 
 

@@ -12,6 +12,8 @@ export default function PlacePage() {
     const { id } = useParams();
     const [place, setPlace] = useState(null);
     const [extraInfo, setExtraInfo] = useState([]);
+    const [reviews, setReviews] = useState([]);
+
 
     useEffect(() => {
         if (!id) {
@@ -22,6 +24,12 @@ export default function PlacePage() {
             setPlace(response.data);
             setExtraInfo(response.data.extraInfo.split('*'))
         });
+
+        axios.get(`/reviews/${id}`).then(response => {
+            setReviews([...response.data].slice(0, 6));
+            console.log(...response.data)
+        })
+
 
     }, [id]);
 
@@ -77,7 +85,7 @@ export default function PlacePage() {
                 </div>
             </div>
 
-            <ReviewSection />
+            <ReviewSection place={place} reviews={reviews} setReviews={setReviews}/>
 
         </div>
     )

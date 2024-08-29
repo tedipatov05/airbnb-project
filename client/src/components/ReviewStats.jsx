@@ -16,7 +16,7 @@ export default function ReviewStats({ stars, number, percent }) {
                 </defs>
             </svg>
             <p className="h-2 w-full sm:min-w-[278px] rounded-[30px] bg-gray-200 ml-5 mr-3">
-                <span className={`h-full w-[${percent}%] rounded-[30px] bg-primary flex`}></span>
+                <span className={`h-full w-[${percent}] rounded-[30px] bg-primary flex`}></span>
             </p>
             <p className="font-medium text-lg py-[1px] text-black mr-[2px]">{number}</p>
         </div>

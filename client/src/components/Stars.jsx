@@ -4,9 +4,9 @@ export default function Stars({ count }) {
     const countStars = Array(count).fill().map((_, i) => i + 1);
 
     return (
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3">
             {count > 0 && countStars.map(star => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" key={star}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" key={star}
                     viewBox="0 0 36 36" fill="none">
                     <g clipPath="url(#clip0_13624_3137)">
                         <path

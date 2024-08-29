@@ -12,8 +12,10 @@ export default function BookingPlace() {
     const { id } = useParams();
     const [booking, setBooking] = useState(null);
 
+
     useEffect(() => {
         if (id) {
+
             axios.get('/bookings').then(response => {
                 const foundBooking = response.data.filter(({ _id }) => _id === id);
                 console.log(foundBooking[0]);
@@ -21,6 +23,8 @@ export default function BookingPlace() {
                     setBooking(foundBooking[0]);
                 }
             })
+
+            
         }
 
     }, [id])
