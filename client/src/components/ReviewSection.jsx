@@ -10,7 +10,7 @@ export default function ReviewSection({ place, reviews, setReviews }) {
 
     const [stars, setStars] = useState(1);
     const [content, setContent] = useState('');
-    const [sortedReviews,  setSortedReviews] = useState([...reviews].sort((a,b) => new Date(b.createdOn)-new Date(a.createdOn)).slice(0, 6));
+    const sortedReviews =  [...reviews].sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn)).slice(0, 6);
 
     function handleStars(ev) {
         const starsInput = Number(ev.target.value)
@@ -43,10 +43,10 @@ export default function ReviewSection({ place, reviews, setReviews }) {
 
             });
 
-            setReviews([ data, ...reviews]);
+            setReviews(reviews.length > 0 ?  [data, ...reviews] : [data]);
             ev.target.reset();
             setContent('');
-            
+
 
         } catch (e) {
             toast.error('Unexpected error occured', {
@@ -71,80 +71,85 @@ export default function ReviewSection({ place, reviews, setReviews }) {
         <section className="py-24 relative">
             <div className="w-full max-w-7xl px-4 md:px-5 lg:px-6 mx-auto">
                 <div className="">
-                    <h2 className="font-manrope font-bold text-3xl sm:text-4xl leading-10 text-black mb-8 text-center">
-                        Customer reviews &
-                        rating</h2>
-                    <div className="grid grid-cols-12 mb-11">
+                    {reviews.length > 0 && (
+                        <>
+                            <h2 className="font-manrope font-bold text-3xl sm:text-4xl leading-10 text-black mb-8 text-center">
+                                Customer reviews &
+                                rating</h2>
+                            <div className="grid grid-cols-12 mb-11">
 
-                        <div className="col-span-12 xl:col-span-4 flex items-center">
-                            <div className="box flex flex-col gap-y-4 w-full max-xl:max-w-3xl mx-auto">
-                                <ReviewStats stars={5} number={fiveStars} percent={`${(fiveStars / reviews.length) * 100}%`} />
-                                <ReviewStats stars={4} number={fourStars} percent={`${(fourStars / reviews.length) * 100}%`} />
-                                <ReviewStats stars={3} number={threeStars} percent={`${(threeStars / reviews.length) * 100}%`} />
-                                <ReviewStats stars={2} number={twoStars} percent={`${(twoStars / reviews.length) * 100}%`} />
-                                <ReviewStats stars={1} number={oneStar} percent={`${(oneStar / reviews.length) * 100}%`} />
+                                <div className="col-span-12 xl:col-span-4 flex items-center">
+                                    <div className="box flex flex-col gap-y-4 w-full max-xl:max-w-3xl mx-auto">
+                                        <ReviewStats stars={5} number={fiveStars} percent={`${fiveStars > 0 ? (fiveStars / reviews.length) * 100 : 0}%`} />
+                                        <ReviewStats stars={4} number={fourStars} percent={`${fourStars > 0 ? (fourStars / reviews.length) * 100 : 0}%`} />
+                                        <ReviewStats stars={3} number={threeStars} percent={`${threeStars > 0 ? (threeStars / reviews.length) * 100 : 0}%`} />
+                                        <ReviewStats stars={2} number={twoStars} percent={`${twoStars > 0 ? (twoStars / reviews.length) * 100 : 0}%`} />
+                                        <ReviewStats stars={1} number={oneStar} percent={`${oneStar > 0 ? (oneStar / reviews.length) * 100 : 0}%`} />
 
-                            </div>
-                        </div>
-                        <div className="col-span-12 max-xl:mt-8 xl:col-span-8 xl:pl-8 w-full min-h-[230px]">
-                            <div
-                                className="grid grid-cols-12 h-full px-8 max-lg:py-8 rounded-3xl bg-gray-100 w-full max-xl:max-w-3xl max-xl:mx-auto">
-                                <div className="col-span-12 md:col-span-8 flex items-center justify-centre">
-                                    <div className="items-center max-lg:justify-center w-full h-full">
-                                        <div
-                                            className="mt-10 sm:pr-3 sm:border-r border-gray-200 flex items-center justify-center flex-col">
-                                            <h2 className="font-manrope font-bold text-5xl text-black text-center mb-4">{Math.round(average * 10) / 10}</h2>
-                                            <Stars count={Math.floor(average)} />
-                                            <p className="font-normal text-lg leading-8 text-gray-400">{reviews.length} Ratings</p>
+                                    </div>
+                                </div>
+                                <div className="col-span-12 max-xl:mt-8 xl:col-span-8 xl:pl-8 w-full min-h-[230px]">
+                                    <div
+                                        className="grid grid-cols-12 h-full px-8 max-lg:py-8 rounded-3xl bg-gray-100 w-full max-xl:max-w-3xl max-xl:mx-auto">
+                                        <div className="col-span-12 md:col-span-8 flex items-center justify-centre">
+                                            <div className="items-center max-lg:justify-center w-full h-full">
+                                                <div
+                                                    className="mt-10 sm:pr-3 sm:border-r border-gray-200 flex items-center justify-center flex-col">
+                                                    <h2 className="font-manrope font-bold text-5xl text-black text-center mb-4">{average > 0 ? Math.round(average * 10) / 10 : 0}</h2>
+                                                    <Stars count={Math.round(average)} />
+                                                    <p className="font-normal text-lg leading-8 text-gray-400">{reviews.length} Ratings</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 md:col-span-4 max-lg:mt-8 md:pl-8">
+                                            <div className="flex items-center flex-col justify-center w-full h-full ">
+                                                <button
+                                                    className="rounded-full px-6 py-4 bg-white font-semibold text-lg text-primary whitespace-nowrap w-full text-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-pink-200 hover:shadow-pink-200">See
+                                                    All Reviews</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-span-12 md:col-span-4 max-lg:mt-8 md:pl-8">
-                                    <div className="flex items-center flex-col justify-center w-full h-full ">
-                                        <button
-                                            className="rounded-full px-6 py-4 bg-white font-semibold text-lg text-primary whitespace-nowrap w-full text-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-pink-200 hover:shadow-pink-200">See
-                                            All Reviews</button>
-                                    </div>
+                            </div>
+
+                            <div className="pb-8 border-b border-gray-200 max-xl:max-w-3xl max-xl:mx-auto">
+                                <h4 className="font-manrope font-semibold text-3xl leading-10 text-black mb-6">
+                                    Most helpful positive review
+                                </h4>
+                                <div className="grid lg:grid-cols-2 gap-4" id="reviewsContainer">
+
+                                    {sortedReviews && sortedReviews.map((review) => (
+                                        <div className="border border-gray-200 rounded-2xl p-4" key={review.createdOn}>
+
+                                            <div className="flex items-center gap-3">
+                                                <h6 className="font-semibold text-lg leading-8 text-black">{review.owner.name}</h6>
+                                                <p className="font-medium text-base leading-7 text-gray-400">{new Date(review.createdOn).toLocaleDateString("en-Us", {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    year: 'numeric'
+                                                })}</p>
+                                            </div>
+
+                                            {/* stars in review */}
+                                            <div className="flex sm:items-center flex-col sm:flex-row mb-4">
+                                                <Stars count={review.stars} />
+
+                                            </div>
+
+
+                                            <p className="font-normal text-lg leading-8 text-gray-500 ">
+                                                {review.content}
+                                            </p>
+                                        </div>
+                                    ))}
+
+
+
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </>
+                    )}
 
-                    <div className="pb-8 border-b border-gray-200 max-xl:max-w-3xl max-xl:mx-auto">
-                        <h4 className="font-manrope font-semibold text-3xl leading-10 text-black mb-6">
-                            Most helpful positive review
-                        </h4>
-                        <div className="grid lg:grid-cols-2 gap-4" id="reviewsContainer">
-
-                            {sortedReviews && sortedReviews.map((review) => (
-                                <div className="border border-gray-200 rounded-2xl p-4" key={review.createdOn}>
-
-                                    <div className="flex items-center gap-3">
-                                        <h6 className="font-semibold text-lg leading-8 text-black">{review.owner.name}</h6>
-                                        <p className="font-medium text-base leading-7 text-gray-400">{new Date(review.createdOn).toLocaleDateString("en-Us", {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            year: 'numeric'
-                                        })}</p>
-                                    </div>
-
-                                    {/* stars in review */}
-                                    <div className="flex sm:items-center flex-col sm:flex-row mb-4">
-                                        <Stars count={review.stars} />
-
-                                    </div>
-
-
-                                    <p className="font-normal text-lg leading-8 text-gray-500 ">
-                                        {review.content}
-                                    </p>
-                                </div>
-                            ))}
-
-
-
-                        </div>
-                    </div>
                     <div>
                         <form onSubmit={handleReviewSubmit}>
                             <h2 className="font-manrope font-bold text-2xl sm:text-2xl leading-10 text-black mb-8 text-center">Submit your review</h2>
