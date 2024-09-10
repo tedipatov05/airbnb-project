@@ -6,6 +6,7 @@ import PlaceGallery from "../components/PlaceGallery";
 import AddressLink from "../components/AddressLink";
 import '../styles/placeStyle.css';
 import ReviewSection from "../components/ReviewSection";
+import { compareAsc } from "date-fns";
 
 export default function PlacePage() {
 
@@ -26,8 +27,9 @@ export default function PlacePage() {
         });
 
         axios.get(`/reviews/${id}`).then(response => {
-            setReviews([...response.data].slice(0, 6));
-            console.log(...response.data)
+            //const result = 
+            setReviews([...response.data]);
+            // console.log(...response.data)
         })
 
 

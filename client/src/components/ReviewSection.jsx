@@ -10,13 +10,21 @@ export default function ReviewSection({ place, reviews, setReviews }) {
 
     const [stars, setStars] = useState(1);
     const [content, setContent] = useState('');
+    const [sortedReviews,  setSortedReviews] = useState([...reviews].sort((a,b) => new Date(b.createdOn)-new Date(a.createdOn)).slice(0, 6));
 
     function handleStars(ev) {
         const starsInput = Number(ev.target.value)
         setStars(starsInput);
     }
 
+    const sum = reviews.reduce((acc, val) => acc + val.stars, 0);
+    const average = sum / reviews.length;
 
+    const fiveStars = reviews.filter(r => r.stars == 5).length;
+    const fourStars = reviews.filter(r => r.stars == 4).length;
+    const threeStars = reviews.filter(r => r.stars == 3).length;
+    const twoStars = reviews.filter(r => r.stars == 2).length;
+    const oneStar = reviews.filter(r => r.stars == 1).length;
 
 
     async function handleReviewSubmit(ev) {
@@ -70,11 +78,11 @@ export default function ReviewSection({ place, reviews, setReviews }) {
 
                         <div className="col-span-12 xl:col-span-4 flex items-center">
                             <div className="box flex flex-col gap-y-4 w-full max-xl:max-w-3xl mx-auto">
-                                <ReviewStats stars={5} number={40} percent={"30%"} />
-                                <ReviewStats stars={4} number={40} percent={"30%"} />
-                                <ReviewStats stars={3} number={40} percent={"30%"} />
-                                <ReviewStats stars={2} number={40} percent={"30%"} />
-                                <ReviewStats stars={1} number={40} percent={`${30}%`} />
+                                <ReviewStats stars={5} number={fiveStars} percent={`${(fiveStars / reviews.length) * 100}%`} />
+                                <ReviewStats stars={4} number={fourStars} percent={`${(fourStars / reviews.length) * 100}%`} />
+                                <ReviewStats stars={3} number={threeStars} percent={`${(threeStars / reviews.length) * 100}%`} />
+                                <ReviewStats stars={2} number={twoStars} percent={`${(twoStars / reviews.length) * 100}%`} />
+                                <ReviewStats stars={1} number={oneStar} percent={`${(oneStar / reviews.length) * 100}%`} />
 
                             </div>
                         </div>
@@ -85,9 +93,9 @@ export default function ReviewSection({ place, reviews, setReviews }) {
                                     <div className="items-center max-lg:justify-center w-full h-full">
                                         <div
                                             className="mt-10 sm:pr-3 sm:border-r border-gray-200 flex items-center justify-center flex-col">
-                                            <h2 className="font-manrope font-bold text-5xl text-black text-center mb-4">4.3</h2>
-                                            <Stars count={4} />
-                                            <p className="font-normal text-lg leading-8 text-gray-400">46 Ratings</p>
+                                            <h2 className="font-manrope font-bold text-5xl text-black text-center mb-4">{Math.round(average * 10) / 10}</h2>
+                                            <Stars count={Math.floor(average)} />
+                                            <p className="font-normal text-lg leading-8 text-gray-400">{reviews.length} Ratings</p>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +116,7 @@ export default function ReviewSection({ place, reviews, setReviews }) {
                         </h4>
                         <div className="grid lg:grid-cols-2 gap-4" id="reviewsContainer">
 
-                            {reviews && reviews.map((review) => (
+                            {sortedReviews && sortedReviews.map((review) => (
                                 <div className="border border-gray-200 rounded-2xl p-4" key={review.createdOn}>
 
                                     <div className="flex items-center gap-3">
