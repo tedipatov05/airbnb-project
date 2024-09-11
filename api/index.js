@@ -215,13 +215,16 @@ app.get('/bookings', async (req, res) => {
 app.post('/reviews', async (req, res) => {
     const userData = await getUserDataFromRequest(req);
     const { placeId, stars, content } = req.body;
-    Review.create({
+
+    const newReview = new Review({
         content, createdOn: Date.now(), stars, owner: userData.id, place: placeId
-    }).then((doc) => {
-        res.json(doc);
-    }).catch((err) => {
-        throw err;
-    });
+    })
+
+    await newReview.save();
+
+    const populatedReview = await Review.findById(newReview._id).populate('owner');
+
+    res.json(populatedReview);
 })
 app.get('/reviews/:id', async (req, res) => {
     const { id } = req.params;

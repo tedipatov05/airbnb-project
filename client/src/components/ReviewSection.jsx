@@ -5,11 +5,14 @@ import { useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import AllReviewsModal from './AllReviewsModal.jsx';
 
 export default function ReviewSection({ place, reviews, setReviews }) {
 
     const [stars, setStars] = useState(1);
     const [content, setContent] = useState('');
+    const [showModal, setShowModal] = useState(false);
+
     const sortedReviews =  [...reviews].sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn)).slice(0, 6);
 
     function handleStars(ev) {
@@ -42,6 +45,7 @@ export default function ReviewSection({ place, reviews, setReviews }) {
                 theme: "colored",
 
             });
+            console.log(data);
 
             setReviews(reviews.length > 0 ?  [data, ...reviews] : [data]);
             ev.target.reset();
@@ -103,11 +107,12 @@ export default function ReviewSection({ place, reviews, setReviews }) {
                                         </div>
                                         <div className="col-span-12 md:col-span-4 max-lg:mt-8 md:pl-8">
                                             <div className="flex items-center flex-col justify-center w-full h-full ">
-                                                <button
+                                                <button onClick={() => setShowModal(true)}
                                                     className="rounded-full px-6 py-4 bg-white font-semibold text-lg text-primary whitespace-nowrap w-full text-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-pink-200 hover:shadow-pink-200">See
                                                     All Reviews</button>
                                             </div>
                                         </div>
+                                        <AllReviewsModal show={showModal} onClose={() => setShowModal(false)} reviews={reviews} />
                                     </div>
                                 </div>
                             </div>

@@ -1,9 +1,9 @@
-import { useState,  useContext, useEffect} from "react";
+import { useState, useContext, useEffect } from "react";
 import { differenceInCalendarDays } from 'date-fns'
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function BookingWidget({ place }) {
@@ -15,10 +15,10 @@ export default function BookingWidget({ place }) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [redirect, setRedirect] = useState('');
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
-        if(user){
+        if (user) {
             setName(user.name);
         }
     }, [user])
@@ -30,26 +30,45 @@ export default function BookingWidget({ place }) {
     }
 
     async function bookThisPlace() {
-        const price = numberOfNights * place.price;
-        const {data} = await axios.post('/bookings', { place: place._id, checkIn, checkOut, name, phone, price, numberOfGuests});
-        const bookingId = data._id;
-        toast.success(`Successfully booked place: ${place.title}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
 
-        });
+        if (!checkIn || !checkOut) {
+            toast.error(`Check in or check out should not be null`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
 
-        setRedirect(`/account/bookings/${bookingId}`);
+            });
+        }
+        else {
+            const price = numberOfNights * place.price;
+            const { data } = await axios.post('/bookings', { place: place._id, checkIn, checkOut, name, phone, price, numberOfGuests });
+            const bookingId = data._id;
+            toast.success(`Successfully booked place: ${place.title}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+
+            setRedirect(`/account/bookings/${bookingId}`);
+        }
+
+
+
 
     }
 
-    if(redirect){
+    if (redirect) {
         return <Navigate to={redirect} />
     }
 
