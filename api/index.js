@@ -13,6 +13,9 @@ const multer = require('multer');
 const fs = require('fs');
 require('dotenv').config();
 const app = express();
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+const cloudinary = require('cloudinary').v2;
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'fasefraw45ewdeg234'
@@ -31,6 +34,26 @@ console.log(process.env.MONGO_URL)
 
 mongoose.connect(process.env.MONGO_URL);
 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'airbnb-project',
+        allowed_formats: ['jpeg', 'png', 'jpg'],
+        public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+    },
+});
+
+const upload = multer({ storage });
+
+
+
+
 function getUserDataFromRequest(req) {
 
     return new Promise((resolve, reject) => {
@@ -44,18 +67,27 @@ function getUserDataFromRequest(req) {
 
 }
 
+app.post('/upload-profile-pic', upload.single('profilePic'), (req, res) => {
+    const profilePicture = req.file;
+    res.json({
+        message: 'Profile picture uploaded successfully',
+        fileUrl: profilePicture.path,
+    });
+});
+
 app.get('/test', (req, res) => {
     res.json('test ok');
 });
 
 app.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, fileUrl } = req.body;
 
     try {
         const userDoc = await User.create({
             name,
             email,
-            password: bcrypt.hashSync(password, bcryptSalt)
+            password: bcrypt.hashSync(password, bcryptSalt),
+            profilePictureUrl: fileUrl  
         })
 
         res.json(userDoc);
@@ -92,8 +124,8 @@ app.get('/profile', (req, res) => {
     if (token) {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
-            const { name, email, _id } = await User.findById(userData.id)
-            res.json({ name, email, _id });
+            const { name, email, _id, profilePictureUrl } = await User.findById(userData.id)
+            res.json({ name, email, _id, profilePictureUrl });
         })
 
     } else {
