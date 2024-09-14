@@ -155,7 +155,7 @@ export default function ReviewSection({ place, reviews, setReviews }) {
                         </>
                     )}
 
-                    <div>
+                    <div className="mt-3">
                         <form onSubmit={handleReviewSubmit}>
                             <h2 className="font-manrope font-bold text-2xl sm:text-2xl leading-10 text-black mb-8 text-center">Submit your review</h2>
 
