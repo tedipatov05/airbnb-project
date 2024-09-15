@@ -1,7 +1,10 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, Navigate } from "react-router-dom";
 import axios from 'axios';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import './../styles/register.css';
+import { ToastContainer, toast } from 'react-toastify';
+import { UserContext } from "../UserContext";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegiserPage() {
 
@@ -9,6 +12,10 @@ export default function RegiserPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
+    const [redirect, setRedirect] = useState(false);
+    const {setUser} = useContext(UserContext);
+
+
 
 
     async function registetUser(ev) {
@@ -18,17 +25,53 @@ export default function RegiserPage() {
             const data = new FormData();
             data.append('profilePic', profilePicture);
 
-            const {fileUrl} = await axios.post('/upload-profile-pic', data);
+            const responsePic = await axios.post('/upload-profile-pic', data);
+            console.log(responsePic.data.fileUrl)
 
-            
-            await axios.post('/register', {
+            const fileUrl = responsePic.data.fileUrl;
+
+
+            const res = await axios.post('/register', {
                 name, email, password, fileUrl
             });
 
-            alert('Registration successful. Now you can login')
+            console.log(res);
+
+            const userResponse = await axios.post('/login', { email, password }, { withCredentials: true })
+            setUser(userResponse.data);
+
+
+
+
+            toast.success('Registration successful!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+            setRedirect(true);
+
 
         } catch (e) {
-            alert('Registration failed. Please try again later')
+
+            toast.error('Registration failed. Please try again later', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+
+            console.log(e);
         }
 
 
@@ -44,18 +87,20 @@ export default function RegiserPage() {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                document.getElementsByClassName('profile-pic')[0].src =  e.target.result;
+                document.getElementsByClassName('profile-pic')[0].src = e.target.result;
             }
             reader.readAsDataURL(input.files[0]);
-            
+
             setProfilePicture(input.files[0]);
 
 
 
-            
+
         }
     }
-
+    if (redirect) {
+        return <Navigate to={'/'} />
+    }
     return (
         <div className="mt-4 grow flex items-center justify-around">
             <div className="mb-64">
