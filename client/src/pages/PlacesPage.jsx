@@ -7,9 +7,16 @@ import PhotosUploader from "../components/PhotosUploader";
 import PlacesFormPage from "./PlacesFormPage";
 import AccountNav from "../components/AccountNav";
 import PlaceImg from "../components/PlaceImg";
+import Pagination from "../components/Pagination";
 
 export default function PlacesPage() {
     const [places, setPlaces] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [placesPerPage, setPlacesPerPage] = useState(6);
+
+
+
     useEffect(() => {
         axios.get('/user-places').then(({ data }) => {
             setPlaces(data);
@@ -17,6 +24,12 @@ export default function PlacesPage() {
         });
 
     }, []);
+
+
+    const lastPlaceIndex = currentPage * placesPerPage;
+    const firstPlaceIndex = lastPlaceIndex - placesPerPage;
+    const currentPlaces = places.slice(firstPlaceIndex, lastPlaceIndex);
+
     return (
         <div>
             <AccountNav />
@@ -30,11 +43,11 @@ export default function PlacesPage() {
                 </Link>
 
                 <div className="mt-4">
-                    {places.length > 0 && places.map(place => (
+                    {currentPlaces.length > 0 && currentPlaces.map(place => (
 
-                        <Link to={'/account/places/' + place._id} class="bg-white border rounded-xl shadow-sm mt-2 sm:flex" key={place.title}>
+                        <Link to={'/account/places/' + place._id} className="bg-white border rounded-xl shadow-sm mt-2 sm:flex" key={place.title}>
                             <div className="shrink-0 relative w-full rounded-t-xl overflow-hidden sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
-                                <PlaceImg place={place} className={"absolute top-0 start-0 object-cover"}/>
+                                <PlaceImg place={place} className={"absolute top-0 start-0 object-cover"} />
                             </div>
                             <div className="flex flex-wrap">
                                 <div className="p-4 flex flex-col h-full sm:p-7">
@@ -53,10 +66,13 @@ export default function PlacesPage() {
                             </div>
                         </Link>
 
-
-
-
                     ))}
+                </div>
+                <div className="pagination flex justify-center">
+                    {places.length > 0 && (
+                        <Pagination totalPlaces={places.length} placesPerPage={placesPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+
+                    )}
                 </div>
 
             </div>

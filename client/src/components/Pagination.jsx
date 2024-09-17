@@ -13,6 +13,11 @@ export default function Pagination({ totalPlaces, placesPerPage, setCurrentPage,
 
     }
 
+    function pageStyle(page){
+        return page==currentPage ? 'bg-gray-100' : 
+        'bg-gray-300'
+    }
+
     function prev(prev) {
         if (prev < 1) {
             setCurrentPage(1)
@@ -31,7 +36,8 @@ export default function Pagination({ totalPlaces, placesPerPage, setCurrentPage,
             </button>
             <div className="flex items-center gap-x-1">
                 {pages > 0 && pagesArr.map((page, index) => (
-                    <button key={index} type="button" onClick={() => setCurrentPage(page)} className="min-h-[38px] min-w-[38px] flex justify-center items-center text-base text-black hover:bg-gray-200 hover:text-gray-500 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" aria-current="page">{page}</button>
+                    
+                    <button key={index} type="button" onClick={() => setCurrentPage(page)} className={"min-h-[38px] min-w-[38px] flex justify-center items-center text-base text-black hover:bg-gray-200 hover:text-gray-500 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none " + pageStyle(page)} aria-current="page">{page}</button>
 
                 ))}
 

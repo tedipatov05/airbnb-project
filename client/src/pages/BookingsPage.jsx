@@ -16,7 +16,7 @@ export default function BookingsPage() {
     useEffect(() => {
         axios.get('/bookings').then(response => {
 
-            setBookings([...response.data  ]);
+            setBookings([...response.data]);
         })
     }, []);
 
@@ -25,7 +25,7 @@ export default function BookingsPage() {
     const currentBookings = bookings.slice(firstPlaceIndex, lastPlaceIndex);
 
     const rows = currentBookings > 4 ? 2 : 1;
-    
+
 
     return (
         <div >
@@ -34,7 +34,10 @@ export default function BookingsPage() {
                 <Bookings bookings={currentBookings} />
             </div>
             <div className="pagination flex justify-center">
-                <Pagination totalPlaces={bookings.length} placesPerPage={placesPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+                {bookings.length > 0 && (
+                    <Pagination totalPlaces={bookings.length} placesPerPage={placesPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+
+                )}
             </div>
         </div>
     )

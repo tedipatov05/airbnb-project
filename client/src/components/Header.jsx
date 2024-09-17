@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function Header() {
     const { user } = useContext(UserContext);
     return (
-        <header >
+        <header className="border-b p-4" >
             <div className='flex justify-between'>
                 <Link to={'/'} className='flex items0center gap-1'>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-8 -rotate-90">
