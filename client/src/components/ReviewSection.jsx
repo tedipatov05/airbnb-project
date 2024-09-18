@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import AllReviewsModal from './AllReviewsModal.jsx';
 
-export default function ReviewSection({ place, reviews, setReviews }) {
+export default function ReviewSection({ place, reviews, setReviews, showAllPhotos }) {
 
     const [stars, setStars] = useState(1);
     const [content, setContent] = useState('');
@@ -69,10 +69,11 @@ export default function ReviewSection({ place, reviews, setReviews }) {
     }
 
 
+    const sectionStyle = showAllPhotos == true ? 'hidden' : 'block';
 
 
     return (
-        <section className="py-24 relative">
+        <section className={"py-24 relative " + sectionStyle } >
             <div className="w-full max-w-7xl px-4 md:px-5 lg:px-6 mx-auto">
                 <div className="">
                     {reviews.length > 0 && (

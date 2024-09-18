@@ -13,7 +13,7 @@ export default function PlacesPage() {
     const [places, setPlaces] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [placesPerPage, setPlacesPerPage] = useState(6);
+    const [placesPerPage, setPlacesPerPage] = useState(4);
 
 
 
@@ -43,11 +43,11 @@ export default function PlacesPage() {
                 </Link>
 
                 <div className="mt-4">
-                    {currentPlaces.length > 0 && currentPlaces.map(place => (
+                    {currentPlaces.length > 0 && currentPlaces.map((place, index) => (
 
-                        <Link to={'/account/places/' + place._id} className="bg-white border rounded-xl shadow-sm mt-2 sm:flex" key={place.title}>
+                        <Link to={'/account/places/' + place._id} className="bg-white border rounded-xl shadow-sm h-52 mt-2 sm:flex" key={index}>
                             <div className="shrink-0 relative w-full rounded-t-xl overflow-hidden sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
-                                <PlaceImg place={place} className={"absolute top-0 start-0 object-cover"} />
+                                <PlaceImg place={place} className={"absolute top-0 start-0 object-cover h-52 w-64"} />
                             </div>
                             <div className="flex flex-wrap">
                                 <div className="p-4 flex flex-col h-full sm:p-7">

@@ -25,15 +25,15 @@ export default function IndexPage() {
     const firstPlaceIndex = lastPlaceIndex - placesPerPage;
     const currentPlaces = places.slice(firstPlaceIndex, lastPlaceIndex);
 
-
+   
     return (
         <>
             <div className="mt-8 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {currentPlaces.length > 0 && currentPlaces.map(place => (
-                    <Link to={'/place/' + place._id} key={place.title}>
+                {currentPlaces.length > 0 && currentPlaces.map((place, index) => (
+                    <Link to={'/place/' + place._id} key={index}>
                         <div className="bg-gray-500 rounded-2xl flex">
                             {place.photos?.[0] && (
-                                <img className="rounded-2xl aspect-square object-cover" src={'http://localhost:4000/uploads/' + place.photos?.[0]} alt=""></img>
+                                <img className="rounded-2xl aspect-square object-cover" src={ place.photos[0].includes('http') ? place.photos[0] : 'http://localhost:4000/uploads/' + place.photos?.[0]} alt=""></img>
                             )}
 
                         </div>

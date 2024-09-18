@@ -34,7 +34,7 @@ export default function Header() {
                     </svg>
                     <div className='bg-gray-500 text-white rounded-full border-gray-500 overflow-hidden'>
                         {!!user && (
-                            <img className="size-6 realtive top-1" src={user.profilePictureUrl} />
+                            <img className="size-6 realtive top-1" src={user.profilePictureUrl == null ? "../../public/blank-profile-picture.png" : user.profilePictureUrl} />
 
                         )}
 

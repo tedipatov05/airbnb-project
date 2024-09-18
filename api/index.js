@@ -75,6 +75,17 @@ app.post('/upload-profile-pic', upload.single('profilePic'), (req, res) => {
     });
 });
 
+app.post('/upload-photos', upload.array('photos', 100), (req, res) => {
+    const photos = req.files;
+    let uploadedFiles = [];
+    for (let i =0; i< photos.length; i++){
+        uploadedFiles.push(photos[i].path);
+    }
+
+    res.json(uploadedFiles);
+})
+
+
 app.get('/test', (req, res) => {
     res.json('test ok');
 });
@@ -223,6 +234,7 @@ app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
     }
     res.json(uploadedFiles);
 });
+
 
 app.post('/bookings', async (req, res) => {
     const userData = await getUserDataFromRequest(req);

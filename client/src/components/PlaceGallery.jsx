@@ -1,12 +1,14 @@
 import { useState } from "react";
 
 
-export default function PlaceGallery({ place }) {
-    const [showAllPhotos, setShowAllPhotos] = useState(false);
+export default function PlaceGallery({ place, showAllPhotos, setShowAllPhotos }) {
 
-
-
+   
     if (showAllPhotos) {
+
+        
+
+
         return (
             <div className="absolute inset-0 bg-black text-white min-h-screen" >
                 <div className="bg-black p-8 grid gap-4" id="gallery">
@@ -19,9 +21,9 @@ export default function PlaceGallery({ place }) {
                             Close photos
                         </button>
                     </div>
-                    {place?.photos?.length > 0 && place.photos.map(photo => (
-                        <div>
-                            <img src={'http://localhost:4000/uploads/' + photo} alt=""></img>
+                    {place?.photos?.length > 0 && place.photos.map((photo, index) => (
+                        <div key={index}>
+                            <img src={photo.includes('http') ? photo : 'http://localhost:4000/uploads/' + photo} alt=""></img>
                         </div>
                     ))}
 
@@ -32,24 +34,29 @@ export default function PlaceGallery({ place }) {
         )
     }
 
+    const thirdPhotoClassName = place.photos[2] != null ? '' : "aspect-square bg-gray-600";
+
 
     return (
         <div className="relative">
             <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-2xl overflow-hidden">
                 <div >
                     {place.photos?.[0] && (
-                        <div>
-                            <img onClick={() => setShowAllPhotos(true)} className="aspect-square cursor-pointer object-cover hover:brightness-75" src={'http://localhost:4000/uploads/' + place.photos?.[0]}></img>
-                        </div>
+
+                        <img onClick={() => setShowAllPhotos(true)} className="aspect-square h-full cursor-pointer object-cover hover:brightness-75" src={place.photos?.[0].includes('http') ? place.photos[0] : 'http://localhost:4000/uploads/' + place.photos?.[0]}></img>
+
                     )}
                 </div>
-                <div className="grid">
+                <div className="grid gap-2">
                     {place.photos?.[1] && (
-                        <img onClick={() => setShowAllPhotos(true)} className="aspect-square cursor-pointer object-cover hover:brightness-75" src={'http://localhost:4000/uploads/' + place.photos?.[1]}></img>
+
+                        <img onClick={() => setShowAllPhotos(true)} className="aspect-square cursor-pointer object-cover hover:brightness-75" src={place.photos?.[1].includes('http') ? place.photos[1] : 'http://localhost:4000/uploads/' + place.photos?.[1]}></img>
+
+
                     )}
-                    <div className="overflow-hidden">
+                    <div className={"overflow-hidden " + thirdPhotoClassName} onClick={() => setShowAllPhotos(true)}>
                         {place.photos?.[2] && (
-                            <img onClick={() => setShowAllPhotos(true)} className="aspect-square cursor-pointer object-cover relative top-2 hover:brightness-75" src={'http://localhost:4000/uploads/' + place.photos?.[2]}></img>
+                            <img onClick={() => setShowAllPhotos(true)} className="aspect-square h-full cursor-pointer object-cover relative top-2 hover:brightness-75" src={place.photos?.[2].includes('http') ? place.photos[2] : 'http://localhost:4000/uploads/' + place.photos?.[2]}></img>
                         )}
                     </div>
 

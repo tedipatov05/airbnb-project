@@ -14,6 +14,8 @@ export default function PlacePage() {
     const [place, setPlace] = useState(null);
     const [extraInfo, setExtraInfo] = useState([]);
     const [reviews, setReviews] = useState([]);
+    const [showAllPhotos, setShowAllPhotos] = useState(false);
+
 
 
     useEffect(() => {
@@ -43,12 +45,12 @@ export default function PlacePage() {
         <div className="mt-4 -mx-8 px-8 pt-8">
             <h1 className="text-3xl">{place.title}</h1>
             <AddressLink>{place.address}</AddressLink>
-            <PlaceGallery place={place} />
+            <PlaceGallery place={place} showAllPhotos={showAllPhotos} setShowAllPhotos={setShowAllPhotos} />
 
             <div className="mt-8 mb-8 gap-8 grid grid-cols-1 md:grid-cols-[2fr_1fr]">
                 <div>
                     <div className="flex gap-2">
-                        <img className="h-12 w-12 rounded-full" src='http://localhost:4000/uploads/blank-profile-picture.png' alt="" />
+                        <img className="h-12 w-12 rounded-full" src={place.owner.profilePictureUrl == null ? 'http://localhost:4000/uploads/blank-profile-picture.png' : place.owner.profilePictureUrl} alt="" />
                         <div className="ml-3 overflow-hidden">
                             <p className="text-md font-medium text-slate-900">Hosted by {place.owner.name}</p>
                             <p className="text-md text-slate-500 truncate">{place.owner.email}</p>
@@ -87,7 +89,7 @@ export default function PlacePage() {
                 </div>
             </div>
 
-            <ReviewSection place={place} reviews={reviews} setReviews={setReviews}/>
+            <ReviewSection place={place} reviews={reviews} setReviews={setReviews} showAllPhotos={showAllPhotos}/>
 
         </div>
     )
