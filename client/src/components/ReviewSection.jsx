@@ -73,7 +73,7 @@ export default function ReviewSection({ place, reviews, setReviews, showAllPhoto
 
 
     return (
-        <section className={"py-24 relative " + sectionStyle } >
+        <section className={"py-8 relative " + sectionStyle } >
             <div className="w-full max-w-7xl px-4 md:px-5 lg:px-6 mx-auto">
                 <div className="">
                     {reviews.length > 0 && (

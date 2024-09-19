@@ -3,15 +3,15 @@ import { useState } from "react";
 
 export default function PlaceGallery({ place, showAllPhotos, setShowAllPhotos }) {
 
-   
+
     if (showAllPhotos) {
 
-        
+
 
 
         return (
-            <div className="absolute inset-0 bg-black text-white min-h-screen" >
-                <div className="bg-black p-8 grid gap-4" id="gallery">
+            <div className="absolute inset-0 bg-white text-dark min-h-screen" >
+                <div className="bg-white p-8 grid gap-4" id="gallery">
                     <div>
                         <h2 className="text-3xl mr-48">Photos of {place.title}</h2>
                         <button onClick={() => setShowAllPhotos(false)} className="fixed right-12 top-8 flex gap-2 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black">
@@ -21,15 +21,27 @@ export default function PlaceGallery({ place, showAllPhotos, setShowAllPhotos })
                             Close photos
                         </button>
                     </div>
-                    {place?.photos?.length > 0 && place.photos.map((photo, index) => (
-                        <div key={index}>
-                            <img src={photo.includes('http') ? photo : 'http://localhost:4000/uploads/' + photo} alt=""></img>
+                    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+                        <div className="-m-1 flex flex-wrap md:-m-2">
+                            {place?.photos?.length > 0 && place.photos.map((photo, index) => (
+                                <div className="flex w-1/3 flex-wrap">
+                                    <div className="w-full p-1 md:p-2">
+                                        <img
+                                            alt="gallery"
+                                            className="block h-full w-full rounded-lg object-cover object-center"
+                                            src={photo.includes('http') ? photo : 'http://localhost:4000/uploads/' + photo} />
+                                    </div>
+                                </div>
+
+
+                            ))}
                         </div>
-                    ))}
+
+
+                    </div>
+
 
                 </div>
-
-
             </div>
         )
     }
