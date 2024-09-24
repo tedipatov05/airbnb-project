@@ -7,6 +7,8 @@ import AddressLink from "../components/AddressLink";
 import '../styles/placeStyle.css';
 import ReviewSection from "../components/ReviewSection";
 import { compareAsc } from "date-fns";
+import PlaceHost from "../components/PlaceHost";
+import Footer from "../components/Footer";
 
 export default function PlacePage() {
 
@@ -89,7 +91,10 @@ export default function PlacePage() {
                 </div>
             </div>
 
-            <ReviewSection place={place} reviews={reviews} setReviews={setReviews} showAllPhotos={showAllPhotos}/>
+            <ReviewSection placeId={place._id} reviews={reviews} setReviews={setReviews} showAllPhotos={showAllPhotos} visibility={false}/>
+
+            <PlaceHost showAllPhotos={showAllPhotos}/>
+            <Footer />
 
         </div>
     )

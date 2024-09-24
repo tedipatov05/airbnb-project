@@ -11,21 +11,33 @@ export default function BookingPlace() {
 
     const { id } = useParams();
     const [booking, setBooking] = useState(null);
+    const [reviews, setReviews] = useState([]);
+
 
 
     useEffect(() => {
-        if (id) {
 
-            axios.get('/bookings').then(response => {
+        const fetchData = async () => {
+            if (id) {
+
+
+
+                const response = await axios.get('/bookings')
                 const foundBooking = response.data.filter(({ _id }) => _id === id);
                 console.log(foundBooking[0]);
                 if (foundBooking) {
                     setBooking(foundBooking[0]);
                 }
-            })
 
-            
+                const result = await axios.get(`/reviews/${foundBooking[0].place._id}`)
+                setReviews([...result.data])
+
+
+            }
+
         }
+
+        fetchData();
 
     }, [id])
 
@@ -59,7 +71,7 @@ export default function BookingPlace() {
 
             </div>
 
-            <ReviewSection />
+            <ReviewSection reviews={reviews} setReviews={setReviews} placeId={booking.place._id}/>
         </div>
     )
 }
