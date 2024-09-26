@@ -47,20 +47,40 @@ export default function BookingWidget({ place }) {
         else {
             const price = numberOfNights * place.price;
             const { data } = await axios.post('/bookings', { place: place._id, checkIn, checkOut, name, phone, price, numberOfGuests });
-            const bookingId = data._id;
-            toast.success(`Successfully booked place: ${place.title}`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
 
-            });
 
-            setRedirect(`/account/bookings/${bookingId}`);
+            if (data.msg) {
+                toast.error(`These dates are already taken`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+
+                });
+
+
+            } else {
+                const bookingId = data._id;
+                toast.success(`Successfully booked place: ${place.title}`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+
+                });
+
+                setRedirect(`/account/bookings/${bookingId}`);
+            }
+
+
         }
 
 

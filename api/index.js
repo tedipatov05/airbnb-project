@@ -78,7 +78,7 @@ app.post('/upload-profile-pic', upload.single('profilePic'), (req, res) => {
 app.post('/upload-photos', upload.array('photos', 100), (req, res) => {
     const photos = req.files;
     let uploadedFiles = [];
-    for (let i =0; i< photos.length; i++){
+    for (let i = 0; i < photos.length; i++) {
         uploadedFiles.push(photos[i].path);
     }
 
@@ -98,7 +98,7 @@ app.post('/register', async (req, res) => {
             name,
             email,
             password: bcrypt.hashSync(password, bcryptSalt),
-            profilePictureUrl: fileUrl  
+            profilePictureUrl: fileUrl
         })
 
         res.json(userDoc);
@@ -246,14 +246,34 @@ app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
 app.post('/bookings', async (req, res) => {
     const userData = await getUserDataFromRequest(req);
     const { place, checkIn, checkOut, numberOfGuests, name, phone, price } = req.body;
-    Booking.create({
-        place, checkIn, checkOut, numberOfGuests, name, phone, user: userData.id, price
-    }).then((doc) => {
-        res.json(doc);
-    }).catch((err) => {
-        throw err;
-    });
+
+    const bookings = await Booking.find();
+
+    if (bookings.some(b => doPeriodsOverlap(checkIn, checkOut, b.checkIn, b.checkOut))) {
+        res.json({ msg: 'Already taken' })
+    }
+    else {
+        Booking.create({
+            place, checkIn, checkOut, numberOfGuests, name, phone, user: userData.id, price
+        }).then((doc) => {
+            res.json(doc);
+        }).catch((err) => {
+            throw err;
+        });
+    }
+
+
+
 });
+
+function doPeriodsOverlap(start1, end1, start2, end2) {
+    // If period 1 ends before period 2 starts OR period 2 ends before period 1 starts
+    if (end1 <= start2 || end2 <= start1) {
+        return false; // No overlap
+    } else {
+        return true; // Overlap
+    }
+}
 
 
 
